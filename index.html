@@ -13,37 +13,37 @@
 <style>
   
 :root{
-  --bg: #0F1117;
-  --bg2:#161B27;
-  --card:#1B2133;
-  --text:#E8EEFF;
-  --muted:#9AA3C2;
-  --muted2:#6B7594;
-  --border: #2A3150;
-  --shadow: 0 2px 8px rgba(0,0,0,.4);
-  --accent1:#7C3AED;
-  --accent2:#0891B2;
-  --accent3:#16A34A;
-  --ring: rgba(124,58,237,.20);
-  --link:#A78BFA;
-  --chip: #232A40;
+  --bg: #060D1A;
+  --bg2:#0C1526;
+  --card:#101D30;
+  --text:#E2ECF8;
+  --muted:#8BA4BF;
+  --muted2:#56708A;
+  --border: #1C2E45;
+  --shadow: 0 2px 10px rgba(0,0,0,.5);
+  --accent1:#2563EB;
+  --accent2:#0D9488;
+  --accent3:#10B981;
+  --ring: rgba(37,99,235,.22);
+  --link:#60A5FA;
+  --chip: #132030;
 }
 
 [data-theme="light"]{
-  --bg: #F4F6FB;
+  --bg: #F0F5FF;
   --bg2:#FFFFFF;
   --card:#FFFFFF;
-  --text:#0F172A;
-  --muted:#475569;
-  --muted2:#94A3B8;
-  --border: #E2E8F0;
-  --shadow: 0 1px 3px rgba(0,0,0,.06), 0 4px 12px rgba(0,0,0,.04);
-  --accent1:#7C3AED;
-  --accent2:#0891B2;
-  --accent3:#16A34A;
-  --ring: rgba(124,58,237,.12);
-  --link:#6D28D9;
-  --chip: #F1F5F9;
+  --text:#0D1B2A;
+  --muted:#445566;
+  --muted2:#7890A8;
+  --border: #C8D8EC;
+  --shadow: 0 1px 4px rgba(13,27,42,.07), 0 6px 18px rgba(13,27,42,.05);
+  --accent1:#1D4ED8;
+  --accent2:#0D9488;
+  --accent3:#059669;
+  --ring: rgba(29,78,216,.12);
+  --link:#1D4ED8;
+  --chip: #E8F0FA;
 }
 
 *{ box-sizing:border-box; }
@@ -84,9 +84,9 @@ a:hover{ text-decoration: underline; }
 
 .brand{
   display:flex;
-  gap:12px;
+  gap:10px;
   align-items:center;
-  min-width: 260px;
+  min-width: 200px;
 }
 .logo{
   width:36px; height:36px;
@@ -110,30 +110,32 @@ a:hover{ text-decoration: underline; }
 
 nav{
   display:flex;
-  gap: 18px;
+  gap: 4px;
   align-items:center;
-  flex-wrap:wrap;
+  flex-wrap:nowrap;
   justify-content:center;
 }
 nav a{
   font-weight:600;
   font-size: 13px;
-  color: color-mix(in oklab, var(--text) 86%, var(--muted2));
-  opacity: .95;
-  padding: 8px 10px;
-  border-radius: 10px;
+  color: var(--muted);
+  white-space:nowrap;
+  padding: 7px 10px;
+  border-radius: 8px;
+  transition: color .12s, background .12s;
 }
 nav a:hover{
   text-decoration:none;
+  color: var(--text);
   background: var(--chip);
 }
 
 .actions{
   display:flex;
-  gap:10px;
+  gap:8px;
   align-items:center;
   justify-content:flex-end;
-  min-width: 260px;
+  min-width: 200px;
 }
 
 .btn{
@@ -291,6 +293,9 @@ section{
   margin:0;
   font-size: 22px;
   letter-spacing: -0.02em;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--accent1);
+  display: inline-block;
 }
 .section-head p{
   margin:0;
@@ -313,26 +318,31 @@ section{
 
 .card{
   border: 1px solid var(--border);
-  background: color-mix(in oklab, var(--card) 90%, transparent);
-  border-radius: 18px;
-  padding: 16px;
+  border-top: 3px solid var(--accent1);
+  background: var(--card);
+  border-radius: 12px;
+  padding: 18px;
   box-shadow: var(--shadow);
-  transition: transform .12s ease, border-color .12s ease;
+  transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
   min-height: 148px;
 }
 .card:hover{
-  transform: translateY(-2px);
-  border-color: color-mix(in oklab, var(--border) 55%, var(--accent1));
+  transform: translateY(-3px);
+  border-color: var(--accent1);
+  box-shadow: 0 8px 24px rgba(29,78,216,.12);
 }
 .card h3{
   margin: 0 0 8px;
-  font-size: 16px;
+  font-size: 15px;
+  font-weight: 700;
   letter-spacing: -0.01em;
+  color: var(--accent1);
 }
 .card p{
   margin:0;
   color: var(--muted);
   font-size: 14px;
+  line-height: 1.6;
 }
 
 /* Team */
@@ -467,8 +477,9 @@ footer{
   cursor:pointer;
 }
 .pub-btn.active{
-  border-color: color-mix(in oklab, var(--border) 55%, var(--accent2));
-  box-shadow: 0 0 0 6px var(--ring);
+  background: var(--accent1);
+  border-color: var(--accent1);
+  color: #fff;
 }
 .pub-card{
   display:flex;
