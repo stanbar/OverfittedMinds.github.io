@@ -416,6 +416,29 @@ footer{
   align-items:center;
 }
 
+/* PG logo */
+.pg-logo-link{
+  display:inline-flex;
+  align-items:center;
+  text-decoration:none;
+  opacity:.85;
+  transition: opacity .15s;
+}
+.pg-logo-link:hover{ opacity:1; text-decoration:none; }
+.pg-logo{
+  height:32px;
+  width:auto;
+}
+.pg-logo--footer{
+  height:40px;
+}
+[data-theme="light"] .pg-logo{
+  filter: brightness(0) opacity(0.75);
+}
+[data-theme="dark"] .pg-logo{
+  filter: none;
+}
+
 /* Small helpers */
 .sr-only{
   position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0;
@@ -949,8 +972,11 @@ footer{
         <b>Artificial Intelligence and Blockchain Lab</b><br/>
         <span>Department of Computer Architecture · Gdańsk University of Technology</span>
       </div>
+      <a href="https://pg.edu.pl" target="_blank" rel="noopener" class="pg-logo-link" aria-label="Gdańsk University of Technology">
+        <img class="pg-logo pg-logo--footer" src="https://pg.edu.pl/themes/custom/politechnika_gdanska/images/pg-logotyp-eng.svg" alt="Gdańsk University of Technology" />
+      </a>
       <div>
-        <span>© <span id="year"></span> · Built for quick sharing & easy deployment</span>
+        <span>© <span id="year"></span> · Gdańsk University of Technology</span>
       </div>
     </div>
   </footer>
