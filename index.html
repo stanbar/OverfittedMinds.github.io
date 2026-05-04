@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Artificial Intelligence and Blockchain Lab — Gdańsk University of Technology</title>
+  <meta name="description" content="Artificial Intelligence and Blockchain Lab at Gdańsk University of Technology. Research in NLP, LLMs, trustworthy AI, blockchain protocols, and privacy-preserving computation." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  
+:root{
+  --bg: #0F1117;
+  --bg2:#161B27;
+  --card:#1B2133;
+  --text:#E8EEFF;
+  --muted:#9AA3C2;
+  --muted2:#6B7594;
+  --border: #2A3150;
+  --shadow: 0 2px 8px rgba(0,0,0,.4);
+  --accent1:#7C3AED;
+  --accent2:#0891B2;
+  --accent3:#16A34A;
+  --ring: rgba(124,58,237,.20);
+  --link:#A78BFA;
+  --chip: #232A40;
+}
+
+[data-theme="light"]{
+  --bg: #F4F6FB;
+  --bg2:#FFFFFF;
+  --card:#FFFFFF;
+  --text:#0F172A;
+  --muted:#475569;
+  --muted2:#94A3B8;
+  --border: #E2E8F0;
+  --shadow: 0 1px 3px rgba(0,0,0,.06), 0 4px 12px rgba(0,0,0,.04);
+  --accent1:#7C3AED;
+  --accent2:#0891B2;
+  --accent3:#16A34A;
+  --ring: rgba(124,58,237,.12);
+  --link:#6D28D9;
+  --chip: #F1F5F9;
+}
+
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+body{
+  margin:0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.55;
+  overflow-x:hidden;
+}
+
+a{ color:var(--link); text-decoration:none; }
+a:hover{ text-decoration: underline; }
+
+.container{
+  width:min(1120px, 92vw);
+  margin:0 auto;
+}
+
+/* Top bar */
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:50;
+  backdrop-filter: blur(10px);
+  background: color-mix(in oklab, var(--bg2) 70%, transparent);
+  border-bottom: 1px solid var(--border);
+}
+.topbar-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding: 14px 0;
+  gap: 14px;
+}
+
+.brand{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  min-width: 260px;
+}
+.logo{
+  width:36px; height:36px;
+  border-radius: 12px;
+  background: var(--accent1);
+  border: 1px solid var(--border);
+}
+.brand-title{
+  display:flex;
+  flex-direction:column;
+  line-height:1.1;
+}
+.brand-title strong{
+  font-size: 14px;
+  letter-spacing: .2px;
+}
+.brand-title span{
+  font-size:12px;
+  color: var(--muted2);
+}
+
+nav{
+  display:flex;
+  gap: 18px;
+  align-items:center;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+nav a{
+  font-weight:600;
+  font-size: 13px;
+  color: color-mix(in oklab, var(--text) 86%, var(--muted2));
+  opacity: .95;
+  padding: 8px 10px;
+  border-radius: 10px;
+}
+nav a:hover{
+  text-decoration:none;
+  background: var(--chip);
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:flex-end;
+  min-width: 260px;
+}
+
+.btn{
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--card) 90%, transparent);
+  color: var(--text);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor:pointer;
+  box-shadow: none;
+  display:inline-flex;
+  gap:10px;
+  align-items:center;
+  transition: transform .12s ease, background .12s ease, border-color .12s ease;
+}
+.btn:hover{
+  transform: translateY(-1px);
+  background: color-mix(in oklab, var(--card) 96%, transparent);
+  border-color: color-mix(in oklab, var(--border) 60%, var(--accent2));
+}
+.btn.primary{
+  border: 1px solid var(--accent1);
+  background: var(--accent1);
+  color: #fff;
+}
+.btn.primary:hover{
+  transform: translateY(-1px);
+  border-color: color-mix(in oklab, var(--accent2) 60%, var(--border));
+}
+
+.icon{
+  width:16px; height:16px;
+  display:inline-block;
+}
+
+/* Hero */
+.hero{
+  padding: 64px 0 36px;
+}
+.hero-grid{
+  display:grid;
+  grid-template-columns: 1.35fr 0.65fr;
+  gap: 26px;
+  align-items: start;
+}
+@media (max-width: 900px){
+  .hero-grid{ grid-template-columns: 1fr; }
+  .brand, .actions{ min-width:auto; }
+}
+
+.kicker{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--card) 85%, transparent);
+  box-shadow: var(--shadow);
+  font-size: 13px;
+  color: var(--muted);
+  width: fit-content;
+}
+.dot{
+  width:8px; height:8px;
+  border-radius:999px;
+  background: var(--accent1);
+  box-shadow: 0 0 0 6px var(--ring);
+}
+
+h1{
+  font-size: clamp(30px, 4vw, 52px);
+  line-height:1.05;
+  letter-spacing: -0.04em;
+  margin: 14px 0 14px;
+}
+.lead{
+  font-size: 16px;
+  color: var(--muted);
+  max-width: 60ch;
+  margin: 0 0 18px;
+}
+
+.hero-cta{
+  display:flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+.meta{
+  margin-top: 18px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+  color: var(--muted2);
+  font-size: 13px;
+}
+.chip{
+  border: 1px solid var(--border);
+  background: var(--chip);
+  padding: 7px 10px;
+  border-radius: 999px;
+  display:inline-flex;
+  gap:8px;
+  align-items:center;
+  white-space:nowrap;
+}
+
+/* Highlight card */
+.panel{
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent1);
+  background: var(--card);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+.panel > *{ position:relative; }
+.panel h3{
+  margin:0 0 10px;
+  font-size: 14px;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--muted) 85%, var(--text));
+}
+.panel p{
+  margin:0 0 12px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.panel ul{
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.panel li{ margin: 6px 0; }
+
+/* Sections */
+section{
+  padding: 40px 0;
+}
+.section-head{
+  display:flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.section-head h2{
+  margin:0;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+}
+.section-head p{
+  margin:0;
+  color: var(--muted2);
+  font-size: 13px;
+  max-width: 62ch;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+@media (max-width: 980px){
+  .grid{ grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px){
+  .grid{ grid-template-columns: 1fr; }
+}
+
+.card{
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--card) 90%, transparent);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  transition: transform .12s ease, border-color .12s ease;
+  min-height: 148px;
+}
+.card:hover{
+  transform: translateY(-2px);
+  border-color: color-mix(in oklab, var(--border) 55%, var(--accent1));
+}
+.card h3{
+  margin: 0 0 8px;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+}
+.card p{
+  margin:0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* Team */
+.team-grid{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+@media (max-width: 980px){
+  .team-grid{ grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 520px){
+  .team-grid{ grid-template-columns: 1fr; }
+}
+
+.person{
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--card) 92%, transparent);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  display:flex;
+  gap: 12px;
+  align-items:flex-start;
+}
+.avatar{
+  width:56px;
+  height:56px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  object-fit:cover;
+  flex:0 0 auto;
+  box-shadow:0 12px 30px rgba(0,0,0,.18);
+  aspect-ratio:1/1;
+}
+.person h3{
+  margin:0;
+  font-size: 15px;
+  letter-spacing:-0.01em;
+}
+.role{
+  margin-top: 2px;
+  font-size: 13px;
+  color: var(--muted2);
+}
+.bio{
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.links{
+  margin-top: 10px;
+  display:flex;
+  gap:10px;
+  flex-wrap: wrap;
+  font-size: 13px;
+}
+.pill{
+  border: 1px solid var(--border);
+  background: var(--chip);
+  padding: 6px 10px;
+  border-radius: 999px;
+  text-decoration:none;
+  color: color-mix(in oklab, var(--text) 80%, var(--muted));
+  font-weight: 600;
+}
+.pill:hover{ text-decoration:none; border-color: color-mix(in oklab, var(--border) 50%, var(--accent2)); }
+
+/* Footer */
+footer{
+  padding: 34px 0 50px;
+  border-top: 1px solid var(--border);
+  color: var(--muted2);
+  font-size: 13px;
+}
+.footer-grid{
+  display:flex;
+  justify-content:space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+  align-items:center;
+}
+
+/* Small helpers */
+.sr-only{
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0;
+}
+.divider{
+  height:1px;
+  background: var(--border);
+  margin: 26px 0;
+}
+
+/* Publications */
+.pub-controls{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin: 10px 0 16px;
+}
+.pub-btn{
+  border:1px solid var(--border);
+  background: var(--chip);
+  color: color-mix(in oklab, var(--text) 85%, var(--muted));
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor:pointer;
+}
+.pub-btn.active{
+  border-color: color-mix(in oklab, var(--border) 55%, var(--accent2));
+  box-shadow: 0 0 0 6px var(--ring);
+}
+.pub-card{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  min-height: 170px;
+}
+.pub-top{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+.pub-venue{
+  font-weight:800;
+  letter-spacing:-0.01em;
+}
+.pub-year{
+  color: var(--muted2);
+  font-weight:700;
+}
+.pub-tags{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.tag{
+  border:1px solid var(--border);
+  background: var(--chip);
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  color: color-mix(in oklab, var(--text) 80%, var(--muted));
+}
+.pub-title{
+  margin:0;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+}
+.pub-authors{
+  margin:0;
+  color: var(--muted);
+  font-size: 13px;
+}
+.pub-links{
+  margin-top:auto;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+</style>
+
+</head>
+
+<body data-theme="light">
+  <div class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div class="brand-title">
+          <strong>AI & Blockchain Lab</strong>
+          <span>Gdańsk University of Technology</span>
+        </div>
+      </div>
+
+      <nav aria-label="Primary">
+        <a href="#research">Research</a>
+        <a href="#focus">Focus</a>
+        <a href="#team">Team</a>
+        <a href="#collab">Collaborate</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="actions">
+        <button class="btn" id="themeBtn" type="button" aria-label="Toggle theme">
+          <span class="icon" aria-hidden="true">🌓</span>
+          Theme
+        </button>
+        <a class="btn primary" href="#collab">
+          <span class="icon" aria-hidden="true">✨</span>
+          Work with us
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="kicker">
+          <span class="dot" aria-hidden="true"></span>
+          Department of Computer Architecture · Gdańsk University of Technology (Poland)
+        </div>
+
+        <h1>Artificial Intelligence and Blockchain Lab</h1>
+
+        <p class="lead">
+          We build and study <b>trustworthy AI systems</b> and <b>decentralized infrastructure</b>.
+          Our work spans NLP and large language models, blockchain protocols, and privacy-preserving computation —
+          with a practical focus on real systems that handle sensitive data.
+        </p>
+
+        <div class="hero-cta">
+          <a class="btn primary" href="#research"><span class="icon" aria-hidden="true">🔍</span>Explore research</a>
+          <a class="btn" href="#team"><span class="icon" aria-hidden="true">👥</span>Meet the team</a>
+          <a class="btn" href="#contact"><span class="icon" aria-hidden="true">✉️</span>Contact</a>
+        </div>
+
+        <div class="meta">
+          <span class="chip">Group lead: <b>Prof. Julian Szymański</b></span>
+          <span class="chip">Keywords: <b>NLP</b> · <b>LLMs</b> · <b>Blockchain</b> · <b>Security</b> · <b>Privacy</b></span>
+        </div>
+      </div>
+
+      <aside class="panel" aria-label="Highlights">
+        <h3>What we care about</h3>
+        <p>
+          AI is moving from “tools” to “agents”. Blockchain is moving from “coins” to “infrastructure”.
+          We study what happens when these meet.
+        </p>
+        <ul>
+          <li><b>Trust</b>: who must be honest, and what can be verified?</li>
+          <li><b>Privacy</b>: can we learn from data we are not allowed to see?</li>
+          <li><b>Reliability</b>: can systems stay live under real participation constraints?</li>
+          <li><b>Deployment</b>: can research survive contact with production?</li>
+        </ul>
+      </aside>
+    </div>
+  </header>
+
+  <main>
+    <section id="research">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Research areas</h2>
+            <p>We work at the intersection of language, security, and decentralized systems.</p>
+          </div>
+          <p>We’re open to academic + industry collaborations.</p>
+        </div>
+
+        <div class="grid">
+          <div class="card">
+            <h3>NLP & Large Language Models</h3>
+            <p>LLM-based systems for understanding, summarization, classification, and decision support — including evaluation under real constraints.</p>
+          </div>
+          <div class="card">
+            <h3>Trustworthy AI</h3>
+            <p>Safety, robustness, and accountability of AI systems — especially when they act across organizations and sensitive workflows.</p>
+          </div>
+          <div class="card">
+            <h3>Blockchain protocols & architectures</h3>
+            <p>Design and analysis of decentralized protocols: trust models, liveness assumptions, threat modeling, and protocol engineering.</p>
+          </div>
+          <div class="card">
+            <h3>Privacy-preserving computation</h3>
+            <p>Secure computation techniques enabling collaboration without data exposure: MPC-style thinking, verifiable processing, and secure system design.</p>
+          </div>
+          <div class="card">
+            <h3>AI + Blockchain integration</h3>
+            <p>Architectures where decentralized infrastructure supports transparent AI pipelines: provenance, auditability, and incentive-aware coordination.</p>
+          </div>
+          <div class="card">
+            <h3>Digital public infrastructure</h3>
+            <p>Applied cryptographic systems for high-stakes domains (e.g., governance / voting, compliance, and sensitive services) with measurable trust assumptions.</p>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section-head" id="focus">
+          <div>
+            <h2>How we think</h2>
+            <p>Our approach is engineering-driven: formalize assumptions, quantify trade-offs, and validate with real deployments.</p>
+          </div>
+          <p>We aim for systems that are both <b>useful</b> and <b>defensible</b>.</p>
+        </div>
+
+        <div class="grid">
+          <div class="card">
+            <h3>Assumption-first design</h3>
+            <p>We make hidden assumptions explicit: threat models, trust boundaries, and liveness conditions — then design around them.</p>
+          </div>
+          <div class="card">
+            <h3>Measure what matters</h3>
+            <p>Instead of “secure-ish”, we strive for measurable security & trust properties and clear failure modes.</p>
+          </div>
+          <div class="card">
+            <h3>Real-world constraints</h3>
+            <p>We care about what survives production: UX constraints, incentive pressure, ops reality, and adversarial behavior.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="publications">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2>Publications</h2>
+        <p>
+          Selected peer-reviewed and preprint outputs within the lab scope:
+          NLP/LLMs, trustworthy AI, blockchain protocols, and privacy-preserving computation.
+        </p>
+      </div>
+      <p>Filter by topic.</p>
+    </div>
+
+    <div class="pub-controls" aria-label="Publications filters">
+      <button class="pub-btn active" data-filter="all" type="button">All</button>
+      <button class="pub-btn" data-filter="llm" type="button">LLMs</button>
+      <button class="pub-btn" data-filter="nlp" type="button">NLP</button>
+      <button class="pub-btn" data-filter="blockchain" type="button">Blockchain</button>
+      <button class="pub-btn" data-filter="privacy" type="button">Privacy</button>
+      <button class="pub-btn" data-filter="crypto" type="button">Distributed Crypto</button>
+      <button class="pub-btn" data-filter="trust" type="button">Trust / GovTech</button>
+    </div>
+
+    <div class="grid" id="pubGrid">
+
+      <!-- 2026 / 2025: Distributed crypto + blockchain -->
+      <article class="card pub-card" data-tags="crypto blockchain">
+        <div class="pub-top">
+          <span class="pub-venue">Future Generation Computer Systems</span>
+          <span class="pub-year">2026</span>
+        </div>
+        <div class="pub-tags">
+          <span class="tag">Distributed Crypto</span><span class="tag">Threshold</span><span class="tag">Blockchain</span>
+        </div>
+        <h3 class="pub-title">Federated Distributed Key Generation</h3>
+        <p class="pub-authors">Stanisław Barański, Julian Szymański</p>
+        <div class="pub-links">
+          <a class="pill" href="https://www.sciencedirect.com/science/article/pii/S0167739X25005205" target="_blank" rel="noopener">Publisher</a>
+          <a class="pill" href="https://arxiv.org/abs/2502.20835" target="_blank" rel="noopener">arXiv</a>
+          <a class="pill" href="https://dblp.org/rec/journals/fgcs/BaranskiS26" target="_blank" rel="noopener">DBLP</a>
+        </div>
+      </article>
+
+      <article class="card pub-card" data-tags="blockchain privacy trust">
+        <div class="pub-top">
+          <span class="pub-venue">International Journal of Information Security</span>
+          <span class="pub-year">2025</span>
+        </div>
+        <div class="pub-tags">
+          <span class="tag">Blockchain</span><span class="tag">Privacy</span><span class="tag">Decentralised Storage</span>
+        </div>
+        <h3 class="pub-title">Anonymous provision of privacy-sensitive services using blockchain and decentralised storage</h3>
+        <p class="pub-authors">Stanisław Barański, Julian Szymański, Higinio Mora</p>
+        <div class="pub-links">
+          <a class="pill" href="https://link.springer.com/article/10.1007/s10207-025-01052-w" target="_blank" rel="noopener">Springer</a>
+        </div>
+      </article>
+
+      <!-- LLMs / NLP -->
+      <article class="card pub-card" data-tags="llm nlp">
+        <div class="pub-top">
+          <span class="pub-venue">Knowledge-Based Systems</span>
+          <span class="pub-year">2025</span>
+        </div>
+        <div class="pub-tags">
+          <span class="tag">LLMs</span><span class="tag">Alignment</span><span class="tag">Preference Data</span>
+        </div>
+        <h3 class="pub-title">Aligning large language models with human preferences using historical text edits</h3>
+        <p class="pub-authors">Jan Majkutewicz, Julian Szymański</p>
+        <div class="pub-links">
+          <a class="pill" href="https://www.sciencedirect.com/science/article/pii/S0950705125006124" target="_blank" rel="noopener">Publisher</a>
+        </div>
+      </article>
+
+      <article class="card pub-card" data-tags="llm nlp">
+        <div class="pub-top">
+          <span class="pub-venue">CISIM 2025 (Springer Proceedings)</span>
+          <span class="pub-year">2025</span>
+        </div>
+        <div class="pub-tags">
+          <span class="tag">LLMs</span><span class="tag">Deployment</span><span class="tag">Systems</span>
+        </div>
+        <h3 class="pub-title">An Integrated Approach for Prototyping and Deploying Large Language Models</h3>
+        <p class="pub-authors">Jan Majkutewicz, Julian Szymański</p>
+        <div class="pub-links">
+          <a class="pill" href="https://link.springer.com/book/10.1007/978-3-032-02406-0" target="_blank" rel="noopener">Springer</a>
+        </div>
+      </article>
+
+      <!-- Privacy-preserving ML -->
+      <article class="card pub-card" data-tags="privacy llm trust">
+        <div class="pub-top">
+          <span class="pub-venue">TASK Quarterly</span>
+          <span class="pub-year">2024</span>
+        </div>
+        <div class="pub-tags">
+          <span class="tag">Privacy</span><span class="tag">PPML</span><span class="tag">Inference</span>
+        </div>
+        <h3 class="pub-title">A Survey on Privacy-Preserving Machine Learning Inference</h3>
+        <p class="pub-authors">Stanisław Barański</p>
+        <div class="pub-links">
+          <a class="pill" href="https://journal.mostwiedzy.pl/TASKQuarterly/article/view/3534" target="_blank" rel="noopener">Journal</a>
+        </div>
+      </article>
+
+      <!-- Trust / evaluation framework (preprint; in scope) -->
+      <article class="card pub-card" data-tags="trust blockchain">
+        <div class="pub-top">
+          <span class="pub-venue">arXiv (preprint)</span>
+          <span class="pub-year">2024</span>
+        </div>
+        <div class="pub-tags">
+          <span class="tag">Trust Models</span><span class="tag">GovTech</span><span class="tag">Voting</span>
+        </div>
+        <h3 class="pub-title">A Trust-Centric Approach To Quantifying Maturity and Security in Internet Voting Protocols</h3>
+        <p class="pub-authors">Stanisław Barański, Ben Biedermann, Joshua Ellul</p>
+        <div class="pub-links">
+          <a class="pill" href="https://arxiv.org/abs/2412.10611" target="_blank" rel="noopener">arXiv</a>
+          <a class="pill" href="https://dblp.org/rec/journals/corr/abs-2412-10611" target="_blank" rel="noopener">DBLP</a>
+        </div>
+      </article>
+
+      <!-- Julian’s classic NLP / IR line (from DBLP, in-scope) -->
+      <article class="card pub-card" data-tags="nlp">
+        <div class="pub-top">
+          <span class="pub-venue">Journal of Intelligent Information Systems</span>
+          <span class="pub-year">2017</span>
+        </div>
+        <div class="pub-tags">
+          <span class="tag">NLP/IR</span><span class="tag">Knowledge Graph</span><span class="tag">Representation</span>
+        </div>
+        <h3 class="pub-title">Path-based methods on categorical structures for conceptual representation of Wikipedia articles</h3>
+        <p class="pub-authors">Łukasz Kucharczyk, Julian Szymański</p>
+        <div class="pub-links">
+          <a class="pill" href="https://dblp.org/pid/40/1153.html" target="_blank" rel="noopener">DBLP list</a>
+        </div>
+      </article>
+
+      <article class="card pub-card" data-tags="nlp">
+        <div class="pub-top">
+          <span class="pub-venue">LNCS / Springer (IKC / KEYSTONE)</span>
+          <span class="pub-year">2018</span>
+        </div>
+        <div class="pub-tags">
+          <span class="tag">Semantic Search</span><span class="tag">Structured Data</span>
+        </div>
+        <h3 class="pub-title">Semantic Keyword-Based Search on Structured Data Sources</h3>
+        <p class="pub-authors">Julian Szymański, Yannis Velegrakis</p>
+        <div class="pub-links">
+          <a class="pill" href="https://dblp.org/db/conf/cost/ikc2017" target="_blank" rel="noopener">DBLP</a>
+        </div>
+      </article>
+
+    </div>
+
+    <p style="margin-top:14px; color: var(--muted2); font-size: 13px;">
+      Note: We list publications relevant to the lab themes (AI/NLP/LLMs + blockchain/security/privacy). Some team members also publish in other domains, which are intentionally omitted here.
+    </p>
+  </div>
+</section>
+    
+    
+    <section id="team">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Team</h2>
+            <p>Based in Gdańsk (Poland). We collaborate with academia and industry partners on secure AI and decentralized systems.</p>
+          </div>
+          <p>Profiles link to institutional pages.</p>
+        </div>
+
+        <div class="team-grid">
+          <div class="person">
+            <img class="avatar" src="https://julian.eti.pg.gda.pl/images/js2.JPG" alt="Julian Szymański">
+            <div>
+              <h3>Julian Szymański</h3>
+              <div class="role">Professor · Group Lead</div>
+              <div class="bio">
+                Leads the lab at Gdańsk University of Technology. Focus on distributed systems and intelligent computing,
+                with emphasis on deployable research and solid engineering.
+              </div>
+              <div class="links">
+                <a class="pill" href="https://mostwiedzy.pl/pl/julian-szymanski,14636-1" target="_blank" rel="noopener">Most Wiedzy</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="person">
+            <img class="avatar" src="https://cv.stan.bar/avatar.jpg" alt="Stanisław Barański">
+            <div>
+              <h3>Stanisław Barański</h3>
+              <div class="role">Researcher / Engineer</div>
+              <div class="bio">
+                Research at the intersection of blockchain protocols, privacy-preserving and verifiable data processing,
+                and trustworthy ML/NLP systems.
+              </div>
+              <div class="links">
+                <a class="pill" href="https://mostwiedzy.pl/pl/stanislaw-baranski,1027556-1" target="_blank" rel="noopener">Most Wiedzy</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="person">
+            <img class="avatar" src="https://podyplomowe.zie.pg.edu.pl/wp-content/uploads/2021/10/1695669846151.jpg" alt="Jan Majkutewicz">
+            <div>
+              <h3>Jan Majkutewicz</h3>
+              <div class="role">Researcher / Engineer</div>
+              <div class="bio">
+                Works on scalable architectures and practical systems engineering for distributed data processing,
+                bridging research prototypes with robust implementations.
+              </div>
+              <div class="links">
+                <a class="pill" href="https://mostwiedzy.pl/pl/jan-majkutewicz,966564-1" target="_blank" rel="noopener">Most Wiedzy</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="person">
+            <img class="avatar" src="https://z3x.io/media/mateusz_gierszewski.jpg" alt="Mateusz Gierszewski">
+            <div>
+              <h3>Mateusz Gierszewski</h3>
+              <div class="role">Researcher / Engineer</div>
+              <div class="bio">
+                Applied work on decentralized protocols and Web3 infrastructure, with a strong engineering focus on security,
+                reliability, and real-world deployments.
+              </div>
+              <div class="links">
+                <a class="pill" href="" target="_blank" rel="noopener">Team page</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section-head" id="collab">
+          <div>
+            <h2>Collaborate with us</h2>
+            <p>We are interested in joint work where security, privacy, and trust are first-class requirements.</p>
+          </div>
+          <p>Students and partners welcome.</p>
+        </div>
+
+        <div class="grid">
+          <div class="card">
+            <h3>Academic research</h3>
+            <p>Co-authored papers, shared datasets, evaluation frameworks, and joint supervision for MSc/PhD work.</p>
+          </div>
+          <div class="card">
+            <h3>Industry R&D</h3>
+            <p>Prototype-to-production collaboration on trustworthy AI, privacy-preserving analytics, and blockchain system design.</p>
+          </div>
+          <div class="card">
+            <h3>Grants & consortia</h3>
+            <p>We participate in projects where decentralized infrastructure and AI must meet compliance and adversarial settings.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Contact</h2>
+            <p>If you want to collaborate, host a visit, or discuss a project, reach out.</p>
+          </div>
+          <p>Gdańsk University of Technology · Poland</p>
+        </div>
+
+        <div class="grid">
+          <div class="card">
+            <h3>Affiliation</h3>
+            <p>
+              Department of Computer Architecture<br/>
+              Gdańsk University of Technology (Politechnika Gdańska)<br/>
+              Gdańsk, Poland
+            </p>
+          </div>
+          <div class="card">
+            <h3>Research group lead</h3>
+            <p>
+              <b>Prof. Julian Szymański</b><br/>
+              (add official email here)
+            </p>
+          </div>
+          <div class="card">
+            <h3>Quick links</h3>
+            <p>
+              Team profiles:<br/>
+              <a href="https://mostwiedzy.pl/pl/julian-szymanski,14636-1" target="_blank" rel="noopener">Szymański</a> ·
+              <a href="https://mostwiedzy.pl/pl/stanislaw-baranski,1027556-1" target="_blank" rel="noopener">Barański</a> ·
+              <a href="https://mostwiedzy.pl/pl/jan-majkutewicz,966564-1" target="_blank" rel="noopener">Majkutewicz</a> ·
+              <a href="" target="_blank" rel="noopener">Gierszewski</a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <b>Artificial Intelligence and Blockchain Lab</b><br/>
+        <span>Department of Computer Architecture · Gdańsk University of Technology</span>
+      </div>
+      <div>
+        <span>© <span id="year"></span> · Built for quick sharing & easy deployment</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Theme toggle with persistence
+    const root = document.documentElement;
+    const btn = document.getElementById("themeBtn");
+
+    function applyTheme(theme){
+      document.body.setAttribute("data-theme", theme);
+      localStorage.setItem("aiblab_theme", theme);
+    }
+
+    const saved = localStorage.getItem("aiblab_theme");
+    if(saved === "light" || saved === "dark") applyTheme(saved);
+
+    btn.addEventListener("click", () => {
+      const current = document.body.getAttribute("data-theme") || "dark";
+      applyTheme(current === "dark" ? "light" : "dark");
+    });
+  </script>
+</body>
+</html>
